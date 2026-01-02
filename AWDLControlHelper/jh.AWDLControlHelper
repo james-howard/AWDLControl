@@ -3,12 +3,12 @@
 <plist version="1.0">
     <dict>
         <key>BundleProgram</key>
-        <string>Contents/Resources/Helper</string>
+        <string>Contents/Helpers/AWDLControlHelper</string>
         <key>Label</key>
-        <string>jh.AWDLControlHelper</string>
+        <string>jh.AWDLControl.Helper</string>
         <key>MachServices</key>
         <dict>
-            <key>jh.AWDLControlHelper</key>
+            <key>jh.AWDLControl.Helper</key>
             <true/>
         </dict>
         <key>RunAtLoad</key>

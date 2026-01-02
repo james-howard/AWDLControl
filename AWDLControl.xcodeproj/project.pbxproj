@@ -6,6 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1AAD2F172F075287004C1B0A /* AWDLControlHelper in Copy Helper */ = {isa = PBXBuildFile; fileRef = 1AAD2F042F05FAEB004C1B0A /* AWDLControlHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1AAD2F142F075146004C1B0A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AAD2EE62F05FAB6004C1B0A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AAD2F032F05FAEB004C1B0A;
+			remoteInfo = AWDLControlHelper;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		1AAD2F022F05FAEB004C1B0A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -24,6 +38,17 @@
 			files = (
 			);
 			name = "Copy Helper Plist";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AAD2F162F0751E0004C1B0A /* Copy Helper */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Helpers;
+			dstSubfolderSpec = 1;
+			files = (
+				1AAD2F172F075287004C1B0A /* AWDLControlHelper in Copy Helper */,
+			);
+			name = "Copy Helper";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -118,11 +143,13 @@
 				1AAD2EEA2F05FAB6004C1B0A /* Sources */,
 				1AAD2EEB2F05FAB6004C1B0A /* Frameworks */,
 				1AAD2F0C2F05FBAA004C1B0A /* Copy Helper Plist */,
+				1AAD2F162F0751E0004C1B0A /* Copy Helper */,
 				1AAD2EEC2F05FAB6004C1B0A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1AAD2F152F075146004C1B0A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				1AAD2EF02F05FAB6004C1B0A /* AWDLControl */,
@@ -219,6 +246,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1AAD2F152F075146004C1B0A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1AAD2F032F05FAEB004C1B0A /* AWDLControlHelper */;
+			targetProxy = 1AAD2F142F075146004C1B0A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1AAD2EFB2F05FAB7004C1B0A /* Debug */ = {
@@ -343,6 +378,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AWDLControl/AWDLControl.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -373,6 +409,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AWDLControl/AWDLControl.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -402,9 +439,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEVELOPMENT_TEAM = H2Q5P3YR67;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_OUTPUT_FORMAT = binary;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jh.AWDLControl.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -413,9 +454,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEVELOPMENT_TEAM = H2Q5P3YR67;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_OUTPUT_FORMAT = binary;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jh.AWDLControl.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

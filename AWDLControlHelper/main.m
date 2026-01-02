@@ -67,7 +67,7 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         AWDLService *service = [AWDLService new];
-        NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"jh.AWDLControlHelper"];
+        NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"jh.AWDLControl.Helper"];
         listener.delegate = service;
 
         [listener activate];
