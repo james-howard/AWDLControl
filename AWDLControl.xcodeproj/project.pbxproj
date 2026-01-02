@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 73;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -60,10 +60,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		1AAD2F0E2F05FBC9004C1B0A /* Exceptions for "AWDLControlHelper" folder in "Copy Helper Plist" phase from "AWDLControl" target */ = {
+		1AAD2F0E2F05FBC9004C1B0A /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
-				jh.AWDLControlHelper = (CodeSignOnCopy, );
+				jh.AWDLControlHelper = (
+					CodeSignOnCopy,
+				);
 			};
 			buildPhase = 1AAD2F0C2F05FBAA004C1B0A /* Copy Helper Plist */;
 			membershipExceptions = (
@@ -73,19 +75,8 @@
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		1AAD2EF02F05FAB6004C1B0A /* AWDLControl */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = AWDLControl;
-			sourceTree = "<group>";
-		};
-		1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1AAD2F0E2F05FBC9004C1B0A /* Exceptions for "AWDLControlHelper" folder in "Copy Helper Plist" phase from "AWDLControl" target */,
-			);
-			path = AWDLControlHelper;
-			sourceTree = "<group>";
-		};
+		1AAD2EF02F05FAB6004C1B0A /* AWDLControl */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AWDLControl; sourceTree = "<group>"; };
+		1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (1AAD2F0E2F05FBC9004C1B0A /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = AWDLControlHelper; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,7 +200,7 @@
 			);
 			mainGroup = 1AAD2EE52F05FAB6004C1B0A;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 60;
 			productRefGroup = 1AAD2EEF2F05FAB6004C1B0A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
