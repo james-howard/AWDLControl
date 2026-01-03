@@ -43,15 +43,16 @@
 }
 
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
-    os_log_info(LOG, "Received new connection: %{public}@", newConnection);
+    NSLog(@"Received new connection: %@", newConnection);
+    os_log(LOG, "Received new connection: %{public}@", newConnection);
 
     newConnection.interruptionHandler = ^{
-        os_log_info(LOG, "Connection interrupted");
+        os_log(LOG, "Connection interrupted");
         [self scheduleExit];
     };
 
     newConnection.invalidationHandler = ^{
-        os_log_info(LOG, "Connection invalidated");
+        os_log(LOG, "Connection invalidated");
         [self scheduleExit];
     };
 
@@ -66,11 +67,17 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
+        os_log(LOG, "AWDLControlHelper starting up");
+
         AWDLService *service = [AWDLService new];
-        NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"jh.AWDLControl.Helper"];
+        NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"com.jh.xpc.AWDLControl.Helper"];
         listener.delegate = service;
 
         [listener activate];
+
+        dispatch_main();
+
+        os_log(LOG, "AWDLControlHelper exiting");
     }
     return EXIT_SUCCESS;
 }

@@ -69,8 +69,14 @@ static const char *TARGETIFNAM = "awdl0";
             return nil;
         }
 
+        // pipe for communication from the main thread to the ioctl thread
         if (0 != pipe(_msgfds)) {
             os_log_error(LOG, "Error creating pipe: %d", errno);
+            return nil;
+        }
+        // set pipe to non-blocking
+        if (fcntl(_msgfds[0], F_SETFL, O_NONBLOCK) < 0) {
+            os_log_error(LOG, "Error setting nonblock on pipe read fd: %d", errno);
             return nil;
         }
 
@@ -110,7 +116,7 @@ static const char *TARGETIFNAM = "awdl0";
  *  Watches AWDL interface state and brings it up/down as needed.
  */
 - (void)pollIoctl {
-    os_log_debug(LOG, "+++ %{public}s", __func__);
+    os_log(LOG, "+++ %{public}s", __func__);
     BOOL quit = NO;
     BOOL enable = _awdlEnabled;
     while (!quit) {
@@ -127,18 +133,20 @@ static const char *TARGETIFNAM = "awdl0";
             }
         };
 
-        if (poll(fds, 2, -1)) {
+        if (poll(fds, 2, -1) < 1) {
             if (errno == EINTR) {
                 continue;
             }
+            os_log_error(LOG, "Poll error: %d", errno);
             break;
         }
 
         if (fds[0].revents) {
             // AWDL state has changed. Check and see if it matches our expected state.
+            os_log_debug(LOG, "Network route changed");
             int ifflag = 0;
             uint8_t rtmsgbuff[sizeof(struct rt_msghdr) + sizeof(struct if_msghdr)] = {0};
-            for(ssize_t len = 0;;) {
+            for(ssize_t len = 0; !quit;) {
                 len = read(_rtfd, rtmsgbuff, sizeof(rtmsgbuff));
                 if (len < 0) {
                     if (errno == EINTR) {
@@ -157,7 +165,7 @@ static const char *TARGETIFNAM = "awdl0";
                 // get interface ID
                 int ifidx = if_nametoindex(TARGETIFNAM);
                 if (!ifidx) {
-                    err(1, "Error getting interface name");
+                    os_log_error(LOG, "Error getting interface name");
                 }
 
                 struct if_msghdr * ifmsg = (void *)rtmsg;
@@ -172,6 +180,7 @@ static const char *TARGETIFNAM = "awdl0";
             struct ifreq ifr = {0};
             strlcpy(ifr.ifr_name, TARGETIFNAM, IFNAMSIZ);
             if ((ifflag & IFF_UP) && !enable) {
+                os_log_debug(LOG, "AWDL interface was brought up by someone else");
                 // AWDL has been brought up by some other process. Bring it back down.
                 ifr.ifr_flags = ifflag & ~IFF_UP;
                 if (ioctl(_iocfd, SIOCSIFFLAGS, &ifr) < 0) {
@@ -183,7 +192,7 @@ static const char *TARGETIFNAM = "awdl0";
         if (fds[1].revents) {
             // Process messages from main thread
             char msg = 0;
-            for(ssize_t len = 0;;) {
+            for(ssize_t len = 0; !quit;) {
                 len = read(_msgfds[0], &msg, 1);
                 if (len < 0) {
                     if (errno == EINTR) {
@@ -197,14 +206,17 @@ static const char *TARGETIFNAM = "awdl0";
                 switch (msg)
                 {
                     case 'Q':
+                        os_log(LOG, "Scheduling quit");
                         quit = YES;
                         break;
                     case 'U':
-                        os_log_info(LOG, "Bringing AWDL interface UP");
+                        os_log(LOG, "Bringing AWDL interface UP");
+                        enable = YES;
                         [self ifconfig:YES];
                         break;
                     case 'D':
-                        os_log_info(LOG, "Bringing AWDL interface DOWN");
+                        os_log(LOG, "Bringing AWDL interface DOWN");
+                        enable = NO;
                         [self ifconfig:NO];
                         break;
                     default:
@@ -214,25 +226,23 @@ static const char *TARGETIFNAM = "awdl0";
         }
     }
     dispatch_semaphore_signal(_ioctlThreadExitSemaphore);
-    os_log_debug(LOG, "--- %{public}s", __func__);
+    os_log(LOG, "--- %{public}s", __func__);
 }
 
 - (void)setAwdlEnabled:(BOOL)awdlEnabled {
-    if (awdlEnabled != _awdlEnabled) {
-        _awdlEnabled = awdlEnabled;
-        const char *msg = awdlEnabled ? "U" : "D";
-        write(_msgfds[1], msg, 1);
-    }
+    _awdlEnabled = awdlEnabled;
+    const char *msg = awdlEnabled ? "U" : "D";
+    write(_msgfds[1], msg, 1);
 }
 
 - (void)invalidate {
-    os_log_debug(LOG, "+++ %{public}s", __func__);
+    os_log(LOG, "+++ %{public}s", __func__);
     // Send the quit message to the background thread
     const char *msg = "Q";
     write(_msgfds[1], msg, 1);
     // Wait until the background thread exits
     dispatch_semaphore_wait(_ioctlThreadExitSemaphore, DISPATCH_TIME_FOREVER);
-    os_log_debug(LOG, "--- %{public}s", __func__);
+    os_log(LOG, "--- %{public}s", __func__);
 }
 
 - (void)dealloc {

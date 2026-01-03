@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AssociatedBundleIdentifiers</key>
+	<array>
+		<string>com.jh.AWDLControl</string>
+	</array>
+	<key>BundleProgram</key>
+	<string>Contents/MacOS/AWDLControlHelper</string>
+	<key>Label</key>
+	<string>com.jh.AWDLControl.Helper</string>
+	<key>MachServices</key>
+	<dict>
+		<key>com.jh.xpc.AWDLControl.Helper</key>
+		<true/>
+	</dict>
+</dict>
+</plist>

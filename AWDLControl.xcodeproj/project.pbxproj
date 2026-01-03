@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 73;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,33 +23,28 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		1AAD2F022F05FAEB004C1B0A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstSubfolder = None;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		1AAD2F0C2F05FBAA004C1B0A /* Copy Helper Plist */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = Contents/Library/LaunchDaemons;
-			dstSubfolderSpec = 1;
+			dstSubfolder = Wrapper;
 			files = (
 			);
 			name = "Copy Helper Plist";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1AAD2F162F0751E0004C1B0A /* Copy Helper */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Helpers;
-			dstSubfolderSpec = 1;
+			dstPath = "";
+			dstSubfolder = Executables;
 			files = (
 				1AAD2F172F075287004C1B0A /* AWDLControlHelper in Copy Helper */,
 			);
 			name = "Copy Helper";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -60,39 +55,44 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		1AAD2F0E2F05FBC9004C1B0A /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+		1AAD2F0E2F05FBC9004C1B0A /* Exceptions for "AWDLControlHelper" folder in "Copy Helper Plist" phase from "AWDLControl" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
-				jh.AWDLControlHelper = (
-					CodeSignOnCopy,
-				);
+				com.jh.AWDLControl.Helper.plist = (CodeSignOnCopy, );
 			};
 			buildPhase = 1AAD2F0C2F05FBAA004C1B0A /* Copy Helper Plist */;
 			membershipExceptions = (
-				jh.AWDLControlHelper,
+				com.jh.AWDLControl.Helper.plist,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		1AAD2EF02F05FAB6004C1B0A /* AWDLControl */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AWDLControl; sourceTree = "<group>"; };
-		1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (1AAD2F0E2F05FBC9004C1B0A /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = AWDLControlHelper; sourceTree = "<group>"; };
+		1AAD2EF02F05FAB6004C1B0A /* AWDLControl */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AWDLControl;
+			sourceTree = "<group>";
+		};
+		1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1AAD2F0E2F05FBC9004C1B0A /* Exceptions for "AWDLControlHelper" folder in "Copy Helper Plist" phase from "AWDLControl" target */,
+			);
+			path = AWDLControlHelper;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1AAD2EEB2F05FAB6004C1B0A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1AAD2F012F05FAEB004C1B0A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -146,8 +146,6 @@
 				1AAD2EF02F05FAB6004C1B0A /* AWDLControl */,
 			);
 			name = AWDLControl;
-			packageProductDependencies = (
-			);
 			productName = AWDLControl;
 			productReference = 1AAD2EEE2F05FAB6004C1B0A /* AWDLControl.app */;
 			productType = "com.apple.product-type.application";
@@ -162,14 +160,10 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */,
 			);
 			name = AWDLControlHelper;
-			packageProductDependencies = (
-			);
 			productName = AWDLControlHelper;
 			productReference = 1AAD2F042F05FAEB004C1B0A /* AWDLControlHelper */;
 			productType = "com.apple.product-type.tool";
@@ -200,7 +194,7 @@
 			);
 			mainGroup = 1AAD2EE52F05FAB6004C1B0A;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 56;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 1AAD2EEF2F05FAB6004C1B0A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -214,27 +208,21 @@
 /* Begin PBXResourcesBuildPhase section */
 		1AAD2EEC2F05FAB6004C1B0A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1AAD2EEA2F05FAB6004C1B0A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1AAD2F002F05FAEB004C1B0A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -247,7 +235,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1AAD2EFB2F05FAB7004C1B0A /* Debug */ = {
+		1AAD2EFB2F05FAB7004C1B0A /* Debug configuration for PBXProject "AWDLControl" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -309,7 +297,7 @@
 			};
 			name = Debug;
 		};
-		1AAD2EFC2F05FAB7004C1B0A /* Release */ = {
+		1AAD2EFC2F05FAB7004C1B0A /* Release configuration for PBXProject "AWDLControl" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -364,7 +352,7 @@
 			};
 			name = Release;
 		};
-		1AAD2EFE2F05FAB7004C1B0A /* Debug */ = {
+		1AAD2EFE2F05FAB7004C1B0A /* Debug configuration for PBXNativeTarget "AWDLControl" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -374,10 +362,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2Q5P3YR67;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "AWDL Control";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -385,9 +375,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jh.AWDLControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jh.AWDLControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -395,7 +385,7 @@
 			};
 			name = Debug;
 		};
-		1AAD2EFF2F05FAB7004C1B0A /* Release */ = {
+		1AAD2EFF2F05FAB7004C1B0A /* Release configuration for PBXNativeTarget "AWDLControl" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -405,10 +395,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H2Q5P3YR67;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "AWDL Control";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -416,9 +408,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jh.AWDLControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jh.AWDLControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -426,7 +418,7 @@
 			};
 			name = Release;
 		};
-		1AAD2F092F05FAEB004C1B0A /* Debug */ = {
+		1AAD2F092F05FAEB004C1B0A /* Debug configuration for PBXNativeTarget "AWDLControlHelper" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -435,13 +427,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_OUTPUT_FORMAT = binary;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jh.AWDLControl.Helper;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jh.AWDLControl.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		1AAD2F0A2F05FAEB004C1B0A /* Release */ = {
+		1AAD2F0A2F05FAEB004C1B0A /* Release configuration for PBXNativeTarget "AWDLControlHelper" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -450,9 +444,11 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_OUTPUT_FORMAT = binary;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jh.AWDLControl.Helper;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jh.AWDLControl.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -462,28 +458,25 @@
 		1AAD2EE92F05FAB6004C1B0A /* Build configuration list for PBXProject "AWDLControl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1AAD2EFB2F05FAB7004C1B0A /* Debug */,
-				1AAD2EFC2F05FAB7004C1B0A /* Release */,
+				1AAD2EFB2F05FAB7004C1B0A /* Debug configuration for PBXProject "AWDLControl" */,
+				1AAD2EFC2F05FAB7004C1B0A /* Release configuration for PBXProject "AWDLControl" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		1AAD2EFD2F05FAB7004C1B0A /* Build configuration list for PBXNativeTarget "AWDLControl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1AAD2EFE2F05FAB7004C1B0A /* Debug */,
-				1AAD2EFF2F05FAB7004C1B0A /* Release */,
+				1AAD2EFE2F05FAB7004C1B0A /* Debug configuration for PBXNativeTarget "AWDLControl" */,
+				1AAD2EFF2F05FAB7004C1B0A /* Release configuration for PBXNativeTarget "AWDLControl" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		1AAD2F082F05FAEB004C1B0A /* Build configuration list for PBXNativeTarget "AWDLControlHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1AAD2F092F05FAEB004C1B0A /* Debug */,
-				1AAD2F0A2F05FAEB004C1B0A /* Release */,
+				1AAD2F092F05FAEB004C1B0A /* Debug configuration for PBXNativeTarget "AWDLControlHelper" */,
+				1AAD2F0A2F05FAEB004C1B0A /* Release configuration for PBXNativeTarget "AWDLControlHelper" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
