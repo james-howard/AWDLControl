@@ -1,8 +1,8 @@
 #  AWDL Control
 
-Apple Wireless Direct Link (AWDL) is a technology built in to macOS that supports AirDrop and Continuity features.
+Apple Wireless Direct Link (AWDL) is a technology built in to macOS and iOS that supports AirDrop and Continuity features.
 
-AWDL can cause lag spikes when playing online multiplayer games or when game streaming over WiFi. These spikes can be caused by background activity on your Mac, or they can even be caused by other nearby Apple devices!
+AWDL can cause network lag spikes when playing online multiplayer games or when game streaming over WiFi. These spikes can be caused by background activity on your Mac, or they can even be caused by other nearby Apple devices!
 
 AWDL Control can automatically disables AWDL when the active application is a game, and then automatically bring it back up when you quit the game or switch back to your desktop. This preserves the useful Apple ecosystem functionality that AWDL provides, while preventing network lag spikes in game when you don't need AirDrop or related features.
 
@@ -76,3 +76,11 @@ I have an open feedback with you about the issue this app addresses.
 
 Expanding macOS's Game Mode to limit any activity on the WiFi interface that can cause latency spikes would be a significant enhancement and would improve the viability of multiplayer gaming and game streaming on the Mac. AWDL is one culprit, but CoreLocation is also another major offender when doing WiFi scans for location in the background (e.g. for Calendar appointments with locations). Game Mode already has a feature to reduce Gamepad latency over the Bluetooth radio, so it fits in well to consider what you can do to limit WiFi interruptions in games.
 
+Nothing would make me happier than to see Apple address this issue in macOS itself.
+
+## Alternatives to AWDL Control
+
+Look, I get it, nobody wants to install yet another utility, especially with a privileged helper, just to manage a shortcoming of macOS. Here are a couple of other ideas.
+
+* Run an Ethernet cable to your Mac. You're going to read this and not do it because complaining about lag is easier than physically moving your computer or drilling holes in your walls, but if you're serious about competitive games, you need Ethernet.
+* Set your 5GHz WiFi channel at your router to 149 (in the US) or 44 (in the EU). I'm not sure about other regions. This can reduce lag due to wireless channel hopping performed by AWDL. 
