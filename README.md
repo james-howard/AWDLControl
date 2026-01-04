@@ -4,7 +4,7 @@ Apple Wireless Direct Link (AWDL) is a technology built in to macOS and iOS that
 
 AWDL can cause network lag spikes when playing online multiplayer games or when game streaming over WiFi. These spikes can be caused by background activity on your Mac, or they can even be caused by other nearby Apple devices!
 
-AWDL Control can automatically disables AWDL when the active application is a game, and then automatically bring it back up when you quit the game or switch back to your desktop. This preserves the useful Apple ecosystem functionality that AWDL provides, while preventing network lag spikes in game when you don't need AirDrop or related features.
+AWDL Control is a Mac app that automatically disables AWDL when the active application is a game, and then automatically bring it back up when you quit the game or switch back to your desktop. This preserves the useful Apple ecosystem functionality that AWDL provides, while preventing network lag spikes in game when you don't need AirDrop or related features.
 
 ## System Requirements
 
@@ -12,13 +12,13 @@ macOS 13.0 or higher.
 
 ## Downloads
 
-Visit [GitHub Releases](releases/)
+[GitHub Releases](releases/)
 
 ## Installation
 
 1. Drag AWDLControl.app to your Mac's Applications folder.
 2. Launch AWDLControl.app and click on the "Register Helper" button to install.
-    a. macOS will prompt you for Admin authorization to install the helper.
+    * macOS will prompt you for Admin authorization to install the helper.
 3. (Optional) Configure AWDL Control to start at login time so it will always be running.
 
 ## How to Use
@@ -37,7 +37,14 @@ AWDL Control has 3 modes:
 ## Uninstallation
 
 1. If AWDL Control is running, click the AWDL Control menu bar icon and select "Quit".
-2. Drag AWDLControl.app from Applications to the Trash. The helper will automatically be uninstalled because it is part of app bundle and does not need to be removed separately.
+2. Drag AWDLControl.app from Applications to the Trash.
+3. There is no step 3. Yes, everything is totally gone including the helper!
+
+## Feedback
+
+Please report bugs here on GitHub.
+
+Please send fan mail to jameshoward@mac.com
 
 ## Technical Notes
 
@@ -53,7 +60,7 @@ AWDL Control efficiently automates keeping the `awdl0` interface down by monitor
 
 ### Helper Service
 
-The AWDL Control Helper is a new style bundled LaunchDaemon, registered with [SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice/daemon(plistname:)?language=objc).
+The AWDL Control Helper is a new style bundled LaunchDaemon, registered with [SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice/daemon(plistname:)?language=objc). The big advantage of this compared to old style LaunchDaemons is the daemon and its launchd plist are part of the app bundle. This means the app can be relocated without issue, and uninstallation is as simple as dragging the app to the Trash without worrying about any orphaned plists or programs cluttering up the filesystem or, worse, still running in the background.
 
 The helper daemon is necessary because elevated privileges are required to bring network interfaces up or down.
 
