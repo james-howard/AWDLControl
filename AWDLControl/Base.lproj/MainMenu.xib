@@ -15,10 +15,12 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="downButton" destination="1oF-yc-By5" id="KW2-Hy-cDx"/>
+                <outlet property="downMenuItem" destination="u1Z-VK-Dhm" id="DDg-Uq-ncE"/>
+                <outlet property="gameModeMenuItem" destination="VuT-Iy-fKj" id="f5H-pL-88p"/>
+                <outlet property="openAtLoginCheckbox" destination="fpJ-tF-pDh" id="YGJ-II-FCS"/>
                 <outlet property="registerButton" destination="iA7-by-miz" id="t3k-13-U5p"/>
-                <outlet property="statusLabel" destination="3gX-tH-5ht" id="SBL-I2-ma9"/>
-                <outlet property="upButton" destination="mjp-zK-0o0" id="Sfo-sz-Fyx"/>
+                <outlet property="statusMenu" destination="p1Z-A3-Mol" id="CLp-vU-mUy"/>
+                <outlet property="upMenuItem" destination="PVA-63-l6Z" id="xMh-LN-IDy"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -685,27 +687,40 @@
             </items>
             <point key="canvasLocation" x="200" y="121"/>
         </menu>
-        <window title="AWDLControl" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="271" height="175"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1049"/>
+        <window title="Welcome to AWDL Control" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <rect key="contentRect" x="773" y="420" width="359" height="324"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1050"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="271" height="175"/>
+                <rect key="frame" x="0.0" y="0.0" width="359" height="324"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3gX-tH-5ht">
-                        <rect key="frame" x="18" y="20" width="235" height="16"/>
+                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xXH-cP-92A">
+                        <rect key="frame" x="18" y="96" width="323" height="208"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Helper Status: Unknown" id="w0S-5M-3TU">
+                        <textFieldCell key="cell" selectable="YES" id="0sw-lU-Ut2">
                             <font key="font" metaFont="system"/>
+                            <string key="title">Apple Wireless Direct Link (AWDL) is a technology built in to macOS that supports AirDrop and Continuity features.
+
+AWDL can cause lag spikes when playing online multiplayer games or when game streaming.
+
+AWDL Control automatically disables AWDL when the active application is a game, or, optionally, manually via the menu bar.
+
+In order to operate AWDL Control must register a helper.</string>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iA7-by-miz">
-                        <rect key="frame" x="76" y="131" width="118" height="24"/>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fpJ-tF-pDh">
+                        <rect key="frame" x="20" y="64" width="319" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Start AWDL Control at Login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SHj-Kn-QD8">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iA7-by-miz">
+                        <rect key="frame" x="121" y="20" width="118" height="24"/>
                         <buttonCell key="cell" type="push" title="Register Helper" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="emH-Hj-dpz">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -714,34 +729,60 @@
                             <action selector="registerHelper:" target="Voe-Tx-rLC" id="Bfn-y6-99y"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1oF-yc-By5">
-                        <rect key="frame" x="76" y="95" width="118" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="AWDL Down" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kP2-t4-Ilj">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goDown:" target="Voe-Tx-rLC" id="Lbc-cW-Jd0"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mjp-zK-0o0">
-                        <rect key="frame" x="76" y="59" width="118" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="AWDL Up" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nS3-rr-K5x">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="goUp:" target="Voe-Tx-rLC" id="lsg-Ox-zTA"/>
-                        </connections>
-                    </button>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="iA7-by-miz" secondAttribute="bottom" constant="20" symbolic="YES" id="LuI-3L-f5x"/>
+                    <constraint firstItem="iA7-by-miz" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="U1q-W2-rxF"/>
+                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="top-28-M4D"/>
             </connections>
-            <point key="canvasLocation" x="95.5" y="307.5"/>
+            <point key="canvasLocation" x="157.5" y="422"/>
         </window>
+        <menu title="Status Bar Menu" id="p1Z-A3-Mol">
+            <items>
+                <menuItem title="About AWDL Control …" secondaryImage="info.circle" catalog="system" id="dNE-9b-www">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showAbout:" target="Voe-Tx-rLC" id="s9e-ed-pKv"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="BGr-7y-QD2"/>
+                <menuItem title="Game Mode" state="on" secondaryImage="gamecontroller" catalog="system" id="VuT-Iy-fKj">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="goAuto:" target="Voe-Tx-rLC" id="6au-aG-1E2"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="AWDL On" secondaryImage="wifi" catalog="system" id="PVA-63-l6Z">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="goUp:" target="Voe-Tx-rLC" id="TUi-3T-xyV"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="AWDL Off" image="wifi.slash" catalog="system" id="u1Z-VK-Dhm">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="goDown:" target="Voe-Tx-rLC" id="9z9-DM-R94"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="jMc-E9-jhA"/>
+                <menuItem title="Quit AWDL Control" image="xmark.app" catalog="system" id="ozA-O2-Hdo">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="terminate:" target="-2" id="EY4-Pf-5jN"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="-142" y="650"/>
+        </menu>
     </objects>
+    <resources>
+        <image name="gamecontroller" catalog="system" width="22" height="14"/>
+        <image name="info.circle" catalog="system" width="15" height="15"/>
+        <image name="wifi" catalog="system" width="17" height="13"/>
+        <image name="wifi.slash" catalog="system" width="17" height="16"/>
+        <image name="xmark.app" catalog="system" width="15" height="14"/>
+    </resources>
 </document>

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1AAD2F172F075287004C1B0A /* AWDLControlHelper in Copy Helper */ = {isa = PBXBuildFile; fileRef = 1AAD2F042F05FAEB004C1B0A /* AWDLControlHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1AAE44052F0A097D004A3512 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE44042F0A097D004A3512 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +53,18 @@
 		1AAD2EEE2F05FAB6004C1B0A /* AWDLControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWDLControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AAD2F042F05FAEB004C1B0A /* AWDLControlHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AWDLControlHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AAD2F102F05FBFE004C1B0A /* HelperProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelperProtocol.h; sourceTree = "<group>"; };
+		1AAE44042F0A097D004A3512 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1AAE43F02F0A054E004A3512 /* Exceptions for "AWDLControl" folder in "AWDLControl" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 1AAD2EED2F05FAB6004C1B0A /* AWDLControl */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 		1AAD2F0E2F05FBC9004C1B0A /* Exceptions for "AWDLControlHelper" folder in "Copy Helper Plist" phase from "AWDLControl" target */ = {
@@ -70,6 +82,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1AAD2EF02F05FAB6004C1B0A /* AWDLControl */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1AAE43F02F0A054E004A3512 /* Exceptions for "AWDLControl" folder in "AWDLControl" target */,
+			);
 			path = AWDLControl;
 			sourceTree = "<group>";
 		};
@@ -100,6 +115,7 @@
 		1AAD2EE52F05FAB6004C1B0A = {
 			isa = PBXGroup;
 			children = (
+				1AAE44042F0A097D004A3512 /* README.md */,
 				1AAD2F0F2F05FBE3004C1B0A /* Common */,
 				1AAD2EF02F05FAB6004C1B0A /* AWDLControl */,
 				1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */,
@@ -209,6 +225,7 @@
 		1AAD2EEC2F05FAB6004C1B0A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				1AAE44052F0A097D004A3512 /* README.md in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -366,8 +383,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AWDLControl/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "AWDL Control";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -399,8 +418,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AWDLControl/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "AWDL Control";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
