@@ -4,7 +4,7 @@ Apple Wireless Direct Link (AWDL) is a technology built in to macOS and iOS that
 
 AWDL can cause network lag spikes when playing online multiplayer games or when game streaming over WiFi. These spikes can be caused by background activity on your Mac, or they can even be caused by other nearby Apple devices!
 
-AWDL Control is a Mac app that automatically disables AWDL when the active application is a game, and then automatically bring it back up when you quit the game or switch back to your desktop. This preserves the useful Apple ecosystem functionality that AWDL provides, while preventing network lag spikes in game when you don't need AirDrop or related features.
+AWDL Control is a Mac app that automatically disables AWDL when the active application is a game, and then automatically brings it back up when you quit the game or switch back to your desktop. This preserves the useful Apple ecosystem functionality that AWDL provides, while preventing network lag spikes in game when you don't need AirDrop or related features.
 
 ## System Requirements
 
@@ -81,7 +81,7 @@ I have an open feedback with you about the issue this app addresses.
 
 * FB13512447 - WiFi background scans cause latency spikes
 
-Expanding macOS's Game Mode to limit any activity on the WiFi interface that can cause latency spikes would be a significant enhancement and would improve the viability of multiplayer gaming and game streaming on the Mac. AWDL is one culprit, but CoreLocation is also another major offender when doing WiFi scans for location in the background (e.g. for Calendar appointments with locations). Game Mode already has a feature to reduce Gamepad latency over the Bluetooth radio, so it fits in well to consider what you can do to limit WiFi interruptions in games.
+Expanding macOS's Game Mode to limit any activity on the WiFi interface that can cause latency spikes would be a significant enhancement and would improve the viability of multiplayer gaming and game streaming on the Mac. AWDL is one culprit, but CoreLocation is also another major offender when doing WiFi scans for location in the background (e.g. for Calendar appointments with locations), as are WiFi scans for AP roaming. Game Mode already has a feature to reduce Gamepad latency over the Bluetooth radio, so it fits in well to consider what you can do to limit WiFi interruptions in games.
 
 Nothing would make me happier than to see Apple address this issue in macOS itself.
 
