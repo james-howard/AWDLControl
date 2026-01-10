@@ -202,11 +202,11 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     switch (self.helperService.status) {
         case SMAppServiceStatusNotFound:
         case SMAppServiceStatusNotRegistered:
-            self.registerButton.stringValue = @"Register Helper";
+            self.registerButton.title = @"Register Helper";
             showWindow = YES;
             break;
         case SMAppServiceStatusRequiresApproval:
-            self.registerButton.stringValue = @"Enable Helper";
+            self.registerButton.title = @"Enable Helper";
             showWindow = YES;
             break;
         default:
