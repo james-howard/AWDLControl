@@ -742,7 +742,7 @@ In order to operate AWDL Control must register a helper.</string>
         </window>
         <menu title="Status Bar Menu" id="p1Z-A3-Mol">
             <items>
-                <menuItem title="About AWDL Control …" secondaryImage="info.circle" catalog="system" id="dNE-9b-www">
+                <menuItem title="About AWDL Control" secondaryImage="info.circle" catalog="system" id="dNE-9b-www">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="showAbout:" target="Voe-Tx-rLC" id="s9e-ed-pKv"/>
