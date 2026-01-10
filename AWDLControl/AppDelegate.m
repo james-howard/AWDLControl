@@ -155,6 +155,8 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 }
 
 - (void)setAWDLMode:(AWDLMode)mode {
+    _awdlMode = mode;
+    [[NSUserDefaults standardUserDefaults] setInteger:_awdlMode forKey:@"AWDLMode"];
     switch (mode) {
         case AWDLModeDown:
             [self setAWDLEnabled:NO];
@@ -176,8 +178,6 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
             [self updateAutoAWDLMode];
             break;
     }
-    _awdlMode = mode;
-    [[NSUserDefaults standardUserDefaults] setInteger:_awdlMode forKey:@"AWDLMode"];
 }
 
 - (void)updateAWDLMode {
