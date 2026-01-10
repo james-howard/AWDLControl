@@ -197,12 +197,6 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 // MARK: Helper Registration
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == self.helperService) {
-        [self updateHelperStatus];
-    }
-}
-
 - (void)updateHelperStatusUI {
     BOOL showWindow = NO;
     switch (self.helperService.status) {
