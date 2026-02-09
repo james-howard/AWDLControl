@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AWDL Control</title>
+    <meta
+      name="description"
+      content="AWDL Control is a Mac app that automatically disables AWDL during games to reduce WiFi latency spikes, then restores it when you exit."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f3ee;
+        --ink: #1b1b1b;
+        --muted: #6b6b6b;
+        --accent: #0f6b6b;
+        --accent-2: #f2b54f;
+        --panel: #ffffff;
+        --shadow: 0 18px 50px rgba(15, 20, 20, 0.12);
+        --radius: 18px;
+        --max: 1040px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, system-ui, sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top, #ffffff 0%, #f9f6f1 30%, #efe9e0 100%);
+        min-height: 100vh;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .hero {
+        padding: 96px 24px 56px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container {
+        max-width: var(--max);
+        margin: 0 auto;
+        display: grid;
+        gap: 36px;
+      }
+
+      .hero-card {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: 1fr;
+        align-items: center;
+        background: var(--panel);
+        border-radius: var(--radius);
+        padding: 36px;
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+
+      .hero-title {
+        font-size: clamp(2.6rem, 2.2rem + 1.6vw, 3.6rem);
+        margin: 0 0 10px;
+        letter-spacing: -0.02em;
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+      }
+
+      .hero-subtitle {
+        font-size: 1.15rem;
+        color: var(--muted);
+        margin: 0 0 24px;
+        line-height: 1.6;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+      }
+
+      .title-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        padding: 8px;
+        background: linear-gradient(145deg, #fef7ea 0%, #fff 50%, #e7f1ef 100%);
+        box-shadow: inset 0 0 0 1px rgba(15, 20, 20, 0.08);
+      }
+
+      .grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .card {
+        background: var(--panel);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(15, 20, 20, 0.08);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .section {
+        padding: 0 24px 64px;
+      }
+
+      .section h2 {
+        font-size: 2rem;
+        margin: 0 0 18px;
+      }
+
+      .section p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      .footer {
+        padding: 32px 24px 48px;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      .footer a {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .ribbon {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        background: var(--accent-2);
+        color: #1b1b1b;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+        z-index: 10;
+      }
+
+      .ribbon:focus,
+      .ribbon:hover {
+        background: #f7c96f;
+      }
+
+      .callout {
+        display: grid;
+        gap: 12px;
+        padding: 20px;
+        background: #f1f8f7;
+        border-radius: 14px;
+        border: 1px solid rgba(15, 107, 107, 0.2);
+      }
+
+      .file-link {
+        margin-top: 8px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-align: center;
+      }
+
+      .file-link svg {
+        width: 72px;
+        height: 72px;
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 1.6;
+      }
+
+      .file-link .emoji {
+        font-size: 72px;
+        line-height: 1;
+      }
+
+      .download-icon {
+        position: relative;
+        width: 72px;
+        height: 72px;
+      }
+
+      .download-icon img {
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+        padding: 8px;
+        background: linear-gradient(145deg, #fef7ea 0%, #fff 50%, #e7f1ef 100%);
+        box-shadow: inset 0 0 0 1px rgba(15, 20, 20, 0.08);
+      }
+
+      .download-icon .arrow {
+        position: absolute;
+        right: -4px;
+        bottom: -4px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 6px 14px rgba(15, 20, 20, 0.2);
+      }
+
+      .download-icon .arrow svg {
+        width: 18px;
+        height: 18px;
+        stroke: #fff;
+        stroke-width: 2.6;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      @media (max-width: 860px) {
+        .ribbon {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="ribbon" href="https://github.com/james-howard/AWDLControl">View on GitHub</a>
+
+    <header class="hero">
+      <div class="container hero-card">
+        <div>
+          <h1 class="hero-title" style="text-transform: uppercase; letter-spacing: 0.08em;">
+            <img class="title-icon" src="assets/appicon.svg" alt="" aria-hidden="true" />
+            AWDL CONTROL
+          </h1>
+          <p class="hero-subtitle" style="margin-top: 0;">
+            AWDL Control is a Mac app that automatically disables Apple Wireless Direct Link when the active application is a game, and then automatically brings it back up when you quit the game or switch back to your desktop. This can help prevent network lag spikes in game when you don't need AirDrop or related features.
+          </p>
+          <div class="cta-row">
+            <a class="file-link" href="https://github.com/james-howard/AWDLControl/releases/download/v1.0.1/AWDLControl.1.0.1.zip">
+              <span class="download-icon" aria-hidden="true">
+                <img src="assets/appicon.svg" alt="" />
+                <span class="arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 6v10" />
+                    <path d="M7.5 12.5L12 16.5L16.5 12.5" />
+                  </svg>
+                </span>
+              </span>
+              Download
+            </a>
+            <a class="file-link" href="https://github.com/james-howard/AWDLControl/blob/main/README.md" aria-label="Read the README">
+              <span class="emoji" aria-hidden="true">📝</span>
+              View Readme
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <footer class="footer">
+      <div>
+        AWDL Control is <a href="https://github.com/james-howard/AWDLControl/blob/main/LICENSE.txt">open source</a>.
+        <a href="https://github.com/james-howard/AWDLControl">View the code on GitHub.</a>
+      </div>
+      <div style="margin-top: 10px;">Copyright 2026 <a href="mailto:jameshoward@mac.com?subject=AWDL%20Control">James Howard</a>.</div>
+    </footer>
+  </body>
+</html>
