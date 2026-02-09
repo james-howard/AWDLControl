@@ -12,7 +12,7 @@ macOS 13.0 or higher.
 
 ## Downloads
 
-[GitHub Releases](https://github.com/james-howard/AWDLControl/releases/)
+[Download Latest Release](https://github.com/james-howard/AWDLControl/releases/latest/download/AWDLControl.zip)
 
 ## Installation
 
