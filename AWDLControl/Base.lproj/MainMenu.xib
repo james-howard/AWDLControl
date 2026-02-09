@@ -15,6 +15,8 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="activeMenuItem" destination="k1X-RR-csS" id="7GB-6v-Gr5"/>
+                <outlet property="activeMenuSeparator" destination="kI5-Jz-GHX" id="qu8-mz-hx1"/>
                 <outlet property="downMenuItem" destination="u1Z-VK-Dhm" id="DDg-Uq-ncE"/>
                 <outlet property="gameModeMenuItem" destination="VuT-Iy-fKj" id="f5H-pL-88p"/>
                 <outlet property="openAtLoginCheckbox" destination="fpJ-tF-pDh" id="YGJ-II-FCS"/>
@@ -742,13 +744,10 @@ In order to operate AWDL Control must register a helper.</string>
         </window>
         <menu title="Status Bar Menu" id="p1Z-A3-Mol">
             <items>
-                <menuItem title="About AWDL Control" secondaryImage="info.circle" catalog="system" id="dNE-9b-www">
+                <menuItem title="Helper Inactive" enabled="NO" id="k1X-RR-csS">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="showAbout:" target="Voe-Tx-rLC" id="s9e-ed-pKv"/>
-                    </connections>
                 </menuItem>
-                <menuItem isSeparatorItem="YES" id="BGr-7y-QD2"/>
+                <menuItem isSeparatorItem="YES" id="kI5-Jz-GHX"/>
                 <menuItem title="Game Mode" state="on" secondaryImage="gamecontroller" catalog="system" id="VuT-Iy-fKj">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -768,6 +767,13 @@ In order to operate AWDL Control must register a helper.</string>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="jMc-E9-jhA"/>
+                <menuItem title="About AWDL Control" secondaryImage="info.circle" catalog="system" id="dNE-9b-www">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showAbout:" target="Voe-Tx-rLC" id="s9e-ed-pKv"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="BGr-7y-QD2"/>
                 <menuItem title="Quit AWDL Control" image="xmark.app" catalog="system" id="ozA-O2-Hdo">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

@@ -21,6 +21,12 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     AWDLModeDown,
 };
 
+@interface NSImage (MenuExtras)
+
+- (NSImage *)menuItemImage;
+
+@end
+
 @interface AppDelegate () {
     AWDLMode _awdlMode;
     BOOL _needsRegisterAtLogin;
@@ -29,6 +35,8 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 @property (strong) IBOutlet NSWindow *window;
 @property (strong) IBOutlet NSMenu *statusMenu;
+@property (strong) IBOutlet NSMenuItem *activeMenuItem;
+@property (strong) IBOutlet NSMenuItem *activeMenuSeparator;
 @property (strong) IBOutlet NSMenuItem *gameModeMenuItem;
 @property (strong) IBOutlet NSMenuItem *downMenuItem;
 @property (strong) IBOutlet NSMenuItem *upMenuItem;
@@ -42,6 +50,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 @property NSTimer *helperStatusTimer;
 
 @property Reachability *reachability;
+@property NSRunningApplication *lastGameApp;
 
 @end
 
@@ -109,37 +118,34 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 // MARK: Mode Set
 
-- (BOOL)isActiveAppAGame {
+/// Returns the active game, or nil if the active app isn't a game.
+- (NSRunningApplication *)activeGame {
     NSRunningApplication *app = [[NSWorkspace sharedWorkspace] frontmostApplication];
-    os_log_debug(LOG, "Active app is %{public}@", app);
 
     NSURL *bundleURL = [app bundleURL];
     if (!bundleURL) {
-        os_log_debug(LOG, "Active app doesn't have a bundle");
-        return NO; // Games are in bundles
+        return nil; // Games are in bundles
     }
 
     NSURL *infoURL = [[bundleURL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
     NSData *infoData = [NSData dataWithContentsOfURL:infoURL];
     if (!infoData) {
-        os_log_debug(LOG, "Active app doesn't have Info.plist");
-        return NO;
+        return nil;
     }
 
     @try {
         NSDictionary *plistData = [NSPropertyListSerialization propertyListWithData:infoData options:0 format:NULL error:NULL];
         if (![plistData isKindOfClass:[NSDictionary class]]) {
-            os_log_debug(LOG, "Active app has invalid Info.plist");
-            return NO;
+            return nil;
         }
 
-        return [plistData[@"LSApplicationCategoryType"] isEqualToString:@"public.app-category.games"]
-            || [plistData[@"LSSupportsGameMode"] boolValue];
-    } @catch (id exc) {
-        os_log_debug(LOG, "Active app has invalid Info.plist");
-    }
+        if ([plistData[@"LSApplicationCategoryType"] isEqualToString:@"public.app-category.games"]
+            || [plistData[@"LSSupportsGameMode"] boolValue]) {
+            return app;
+        }
+    } @catch (id exc) { }
 
-    return NO;
+    return nil;
 }
 
 - (void)updateAutoAWDLMode {
@@ -147,9 +153,11 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
         return;
 
     BOOL onWiFi = _reachability.interfaceType == nw_interface_type_wifi;
-    BOOL inGame = [self isActiveAppAGame];
-
-    os_log_info(LOG, "Game Mode: onWiFi: %d inGame: %d", onWiFi, inGame);
+    NSRunningApplication *gameApp = [self activeGame];
+    BOOL inGame = gameApp != nil;
+    if (gameApp) {
+        self.lastGameApp = gameApp;
+    }
 
     [self setAWDLEnabled:!(onWiFi && inGame)];
 }
@@ -189,9 +197,35 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
         if (_awdlEnabled < 0 || enabled != _awdlEnabled)
         {
             _awdlEnabled = enabled;
-            os_log_debug(LOG, "setAWDLEnabled: %d", enabled);
             [self.helperConnection.remoteObjectProxy setAWDLEnabled:enabled];
         }
+    }
+    [self updateActiveMenuItem];
+}
+
+- (void)updateActiveMenuItem {
+    if (!self.helperConnection) {
+        _activeMenuItem.image = nil;
+        _activeMenuItem.title = @"Helper Inactive";
+        _activeMenuItem.hidden = NO;
+        _activeMenuSeparator.hidden = NO;
+    } else if (_awdlMode == AWDLModeGame) {
+        if (self.lastGameApp.active) {
+            _activeMenuItem.image = [self.lastGameApp.icon menuItemImage];
+            _activeMenuItem.title = [NSString stringWithFormat:@"Active for %@", self.lastGameApp.localizedName];
+        } else if (self.lastGameApp && !self.lastGameApp.terminated) {
+            _activeMenuItem.image = [self.lastGameApp.icon menuItemImage];
+            _activeMenuItem.title = [NSString stringWithFormat:@"Previously Active for %@", self.lastGameApp.localizedName];
+        } else {
+            _activeMenuItem.image = nil;
+            _activeMenuItem.title = @"No Active Games";
+        }
+        _activeMenuItem.hidden = NO;
+        _activeMenuSeparator.hidden = NO;
+    } else {
+        self.lastGameApp = nil;
+        _activeMenuItem.hidden = YES;
+        _activeMenuSeparator.hidden = YES;
     }
 }
 
@@ -266,6 +300,16 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     };
     [self.helperConnection activate];
     [self updateAWDLMode];
+}
+
+@end
+
+@implementation NSImage (MenuExtras)
+
+- (NSImage *)menuItemImage {
+    NSImage *img = [self copy];
+    img.size = NSMakeSize(16, 16);
+    return img;
 }
 
 @end
