@@ -36,6 +36,11 @@
     self.monitor.awdlEnabled = enable;
 }
 
+- (void)checkinWithReply:(void (^)(BOOL))reply {
+    os_log(LOG, "checkin received");
+    reply(YES);
+}
+
 - (void)scheduleExit {
     [self.monitor setAwdlEnabled:YES];
     [self.monitor invalidate];
@@ -71,7 +76,7 @@ int main(int argc, const char * argv[]) {
 
         AWDLService *service = [AWDLService new];
         NSXPCListener *listener = [[NSXPCListener alloc] initWithMachServiceName:@"com.jh.xpc.AWDLControl.Helper"];
-        [listener setConnectionCodeSigningRequirement:@"anchor apple generic and identifier \"com.jh.AWDLControl\" and certificate leaf[subject.OU] = H2Q5P3YR67"];
+//        [listener setConnectionCodeSigningRequirement:@"anchor apple generic and identifier \"com.jh.AWDLControl\" and certificate leaf[subject.OU] = H2Q5P3YR67"];
         listener.delegate = service;
 
         [listener activate];

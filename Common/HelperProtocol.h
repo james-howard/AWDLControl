@@ -11,5 +11,6 @@
 
 - (BOOL)isAWDLEnabled;
 - (void)setAWDLEnabled:(BOOL)enable;
+- (void)checkinWithReply:(void (^)(BOOL ok))reply;
 
 @end

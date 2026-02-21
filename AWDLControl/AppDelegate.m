@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 @end
 
-@interface AppDelegate () {
+@interface AppDelegate () <NSWindowDelegate> {
     AWDLMode _awdlMode;
     BOOL _needsRegisterAtLogin;
     NSInteger _awdlEnabled;
@@ -45,9 +45,14 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 @property (strong) IBOutlet NSButton *registerButton;
 @property (strong) IBOutlet NSButton *openAtLoginCheckbox;
 
+@property BOOL userClosedWindow;
+
 @property SMAppService *helperService;
 @property NSXPCConnection *helperConnection;
 @property NSTimer *helperStatusTimer;
+@property NSTimer *helperConnectionTimer;
+@property BOOL receivedHelperCheckinReply;
+@property NSInteger reregisterCount;
 
 @property Reachability *reachability;
 @property NSRunningApplication *lastGameApp;
@@ -57,6 +62,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    self.window.delegate = self;
     _awdlEnabled = -1;
     self.helperService = [SMAppService daemonServiceWithPlistName:@"com.jh.AWDLControl.Helper.plist"];
     [self updateHelperStatus];
@@ -75,8 +81,13 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     return YES;
 }
 
+- (BOOL)windowShouldClose:(NSWindow *)sender {
+    self.userClosedWindow = YES;
+    return YES;
+}
+
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
-    return self.helperService.status != SMAppServiceStatusEnabled;
+    return self.userClosedWindow || self.helperService.status != SMAppServiceStatusEnabled;
 }
 
 // MARK: IBActions
@@ -210,7 +221,13 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
         _activeMenuItem.hidden = NO;
         _activeMenuSeparator.hidden = NO;
     } else if (_awdlMode == AWDLModeGame) {
-        if (self.lastGameApp.active) {
+        if (self.reachability.interfaceType == nw_interface_type_wired) {
+            _activeMenuItem.image = nil;
+            _activeMenuItem.title = @"Connected via Ethernet";
+        } else if (self.reachability.interfaceType != nw_interface_type_wifi) {
+            _activeMenuItem.image = nil;
+            _activeMenuItem.title = @"Not Connected via Wi-Fi";
+        } else if (self.lastGameApp.active) {
             _activeMenuItem.image = [self.lastGameApp.icon menuItemImage];
             _activeMenuItem.title = [NSString stringWithFormat:@"Active for %@", self.lastGameApp.localizedName];
         } else if (self.lastGameApp && !self.lastGameApp.terminated) {
@@ -299,7 +316,61 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
         os_log_error(LOG, "Helper Connection Invalidated");
     };
     [self.helperConnection activate];
+    _helperConnectionTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(helperConnectionTimerFired:) userInfo:nil repeats:NO];
+    __weak typeof(self) weakSelf = self;
+    [self.helperConnection.remoteObjectProxy checkinWithReply:^(BOOL ok) {
+        os_log_debug(LOG, "Received checkin completion");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf handleCheckinReply];
+        });
+    }];
     [self updateAWDLMode];
+}
+
+- (void)helperConnectionTimerFired:(NSTimer *)timer {
+    self.helperConnectionTimer = nil;
+    self.receivedHelperCheckinReply = NO;
+    [self.helperConnection invalidate];
+    self.helperConnection = nil;
+
+    self.reregisterCount++;
+
+    // If we get here, that means the helper never checked in.
+    // This is really a macOS bug, since the SMAppService
+    // shouldn't have reported the helper as registered but not launched it.
+
+    if (self.reregisterCount > 1) {
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.messageText = @"Unable to communicate with helper";
+        NSString *appName = [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleNameKey];
+        alert.informativeText = [NSString stringWithFormat:
+                                 @"Try disabling the %@ background item in System Settings and then re-launch %@.\n\n"
+                                 @"If you see this error repeatedly, delete the app, reboot your system, and re-install the app.", appName, appName];
+        [alert addButtonWithTitle:@"System Settings"];
+        [NSApp activateIgnoringOtherApps:YES];
+        [alert runModal];
+        [SMAppService openSystemSettingsLoginItems];
+        [NSApp terminate:nil];
+    }
+
+    os_log_error(LOG, "Helper connection timed out. Will try re-registering the helper.");
+    [self.helperService unregisterWithCompletionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            os_log_error(LOG, "Helper unregister error: %@", error);
+        } else {
+            os_log_info(LOG, "Re-presenting helper registration UI");
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateHelperStatusUI];
+        });
+    }];
+}
+
+- (void)handleCheckinReply {
+    [self.helperConnectionTimer invalidate];
+    self.helperConnectionTimer = nil;
+    self.receivedHelperCheckinReply = YES;
 }
 
 @end
