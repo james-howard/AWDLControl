@@ -55,6 +55,25 @@ NSString* const ReachabilityDidChangeNotification = @"ReachabilityDidChangeNotif
         }
     }
 
+    // Check if we're on VPN over WiFi ...
+    if (self.interfaceType == nw_interface_type_other) {
+        __block BOOL hasWiFi = NO;
+        nw_path_enumerate_interfaces(path, ^bool(nw_interface_t  _Nonnull interface) {
+            nw_interface_type_t type = nw_interface_get_type(interface);
+            if (type == nw_interface_type_wired) {
+                return false; // break early if Ethernet is before WiFi
+            } else if (type == nw_interface_type_wifi) {
+                hasWiFi = YES;
+                return false;
+            } else {
+                return true;
+            }
+        });
+        if (hasWiFi) {
+            self.interfaceType = nw_interface_type_wifi;
+        }
+    }
+
     [[NSNotificationCenter defaultCenter] postNotificationName:ReachabilityDidChangeNotification object:self userInfo:@{@"interfaceType":@(self.interfaceType)}];
 }
 
