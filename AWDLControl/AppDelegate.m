@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 @end
 
-@interface AppDelegate () <NSWindowDelegate> {
+@interface AppDelegate () <NSWindowDelegate, NSMenuDelegate> {
     AWDLMode _awdlMode;
     BOOL _needsRegisterAtLogin;
     NSInteger _awdlEnabled;
@@ -40,12 +40,14 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 @property (strong) IBOutlet NSMenuItem *gameModeMenuItem;
 @property (strong) IBOutlet NSMenuItem *downMenuItem;
 @property (strong) IBOutlet NSMenuItem *upMenuItem;
+@property (strong) IBOutlet NSMenuItem *hideMenuItem;
 @property (strong) NSStatusItem *statusItem;
 
 @property (strong) IBOutlet NSButton *registerButton;
 @property (strong) IBOutlet NSButton *openAtLoginCheckbox;
 
 @property BOOL userClosedWindow;
+@property BOOL hideStatusItemWithoutTerminating;
 
 @property SMAppService *helperService;
 @property NSXPCConnection *helperConnection;
@@ -65,6 +67,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     self.window.delegate = self;
     _awdlEnabled = -1;
     _awdlMode = [[NSUserDefaults standardUserDefaults] integerForKey:@"AWDLMode"];
+    _hideStatusItemWithoutTerminating = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideWithoutTerminating"];
     self.helperService = [SMAppService daemonServiceWithPlistName:@"com.jh.AWDLControl.Helper.plist"];
     [self updateHelperStatus];
 
@@ -88,6 +91,18 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
     return self.userClosedWindow || self.helperService.status != SMAppServiceStatusEnabled;
+}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)hasVisibleWindows {
+    self.hideStatusItemWithoutTerminating = NO;
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"HideWithoutTerminating"];
+    self.statusItem.visible = YES;
+    self.statusItem.behavior = NSStatusItemBehaviorTerminationOnRemoval;
+    return NO;
+}
+
+- (void)menuWillOpen:(NSMenu *)menu {
+    self.hideMenuItem.hidden = !([NSEvent modifierFlags] & NSEventModifierFlagOption);
 }
 
 // MARK: IBActions
@@ -125,6 +140,23 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 - (IBAction)showAbout:(id)sender {
     [NSApp activateIgnoringOtherApps:YES];
     [NSApp orderFrontStandardAboutPanel:nil];
+}
+
+- (IBAction)hideWithoutTerminating:(id)sender {
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSAlertStyleInformational;
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleNameKey];
+    alert.messageText = @"Hide Menu Bar Item";
+    alert.informativeText = [NSString stringWithFormat:@"%@ will stay running in the background in its current mode. Double click %@ from the Finder to re-show its menu bar item.", appName, appName];
+    [alert addButtonWithTitle:@"Hide"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [NSApp activateIgnoringOtherApps:YES];
+    if (NSAlertFirstButtonReturn == [alert runModal]) {
+        self.hideStatusItemWithoutTerminating = YES;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HideWithoutTerminating"];
+        self.statusItem.behavior = NSStatusItemBehaviorRemovalAllowed;
+        self.statusItem.visible = NO;
+    }
 }
 
 // MARK: Mode Set
@@ -276,7 +308,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:28.0];
         _statusItem.button.image = statusIcon;
         _statusItem.menu = _statusMenu;
-        _statusItem.behavior = NSStatusItemBehaviorTerminationOnRemoval;
+        _statusItem.behavior = _hideStatusItemWithoutTerminating ? NSStatusItemBehaviorRemovalAllowed : NSStatusItemBehaviorTerminationOnRemoval;
         [self.window close];
     }
 }

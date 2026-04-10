@@ -40,6 +40,21 @@ AWDL Control has 3 modes:
 2. Drag AWDLControl.app from Applications to the Trash.
 3. There is no step 3. Yes, everything is totally gone including the helper!
 
+## Pro Tips
+
+### Hide the menu bar item but leave the app running
+
+By default, if you remove the AWDL Control menu bar item, either by holding the Command key
+and dragging it out of the menu bar or using the macOS System Settings "Menu Bar" panel,
+AWDL Control will quit. This is by design so that the software is not inadvertently left
+suppressing AWDL without any visible indication.
+
+If you're a pro and won't forget that you have it running, hold the Option key and
+click the AWDL Control menu bar item and you will see the normally hidden 
+"Hide AWDL Control" menu item. This hides AWDL Control, but leaves it running in whatever
+mode it is in. To bring it back to the menu bar, double click the AWDL Control app
+from the Finder.
+
 ## Feedback
 
 Please report bugs here on GitHub.

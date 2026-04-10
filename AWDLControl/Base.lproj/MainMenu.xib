@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,6 +19,7 @@
                 <outlet property="activeMenuSeparator" destination="kI5-Jz-GHX" id="qu8-mz-hx1"/>
                 <outlet property="downMenuItem" destination="u1Z-VK-Dhm" id="DDg-Uq-ncE"/>
                 <outlet property="gameModeMenuItem" destination="VuT-Iy-fKj" id="f5H-pL-88p"/>
+                <outlet property="hideMenuItem" destination="oNK-GR-1vw" id="Ris-Ed-1h3"/>
                 <outlet property="openAtLoginCheckbox" destination="fpJ-tF-pDh" id="YGJ-II-FCS"/>
                 <outlet property="registerButton" destination="iA7-by-miz" id="t3k-13-U5p"/>
                 <outlet property="statusMenu" destination="p1Z-A3-Mol" id="CLp-vU-mUy"/>
@@ -774,6 +775,12 @@ In order to operate AWDL Control must register a helper.</string>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="BGr-7y-QD2"/>
+                <menuItem title="Hide AWDL Control" image="app.dashed" catalog="system" hidden="YES" id="oNK-GR-1vw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="hideWithoutTerminating:" target="Voe-Tx-rLC" id="37n-Wy-g50"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Quit AWDL Control" image="xmark.app" catalog="system" id="ozA-O2-Hdo">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -781,10 +788,14 @@ In order to operate AWDL Control must register a helper.</string>
                     </connections>
                 </menuItem>
             </items>
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="i4B-hN-2Xz"/>
+            </connections>
             <point key="canvasLocation" x="-142" y="650"/>
         </menu>
     </objects>
     <resources>
+        <image name="app.dashed" catalog="system" width="15" height="14"/>
         <image name="gamecontroller" catalog="system" width="22" height="14"/>
         <image name="info.circle" catalog="system" width="15" height="15"/>
         <image name="wifi" catalog="system" width="17" height="13"/>
