@@ -64,10 +64,10 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.window.delegate = self;
     _awdlEnabled = -1;
+    _awdlMode = [[NSUserDefaults standardUserDefaults] integerForKey:@"AWDLMode"];
     self.helperService = [SMAppService daemonServiceWithPlistName:@"com.jh.AWDLControl.Helper.plist"];
     [self updateHelperStatus];
 
-    [self setAWDLMode:[[NSUserDefaults standardUserDefaults] integerForKey:@"AWDLMode"]];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(updateAutoAWDLMode) name:NSWorkspaceDidActivateApplicationNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAutoAWDLMode) name:ReachabilityDidChangeNotification object:nil];
     self.reachability = [Reachability new];
