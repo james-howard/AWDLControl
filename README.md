@@ -94,6 +94,7 @@ AWDL Control uses approximately the same mechanism as macOS does to determine wh
 
 I have an open feedback with you about the issue this app addresses.
 
+* FB22389467 - AWDL Channel Hopping can cause latency spikes
 * FB13512447 - WiFi background scans cause latency spikes
 
 Expanding macOS's Game Mode to limit any activity on the WiFi interface that can cause latency spikes would be a significant enhancement and would improve the viability of multiplayer gaming and game streaming on the Mac. AWDL is one culprit, but CoreLocation is also another major offender when doing WiFi scans for location in the background (e.g. for Calendar appointments with locations), as are WiFi scans for AP roaming. Game Mode already has a feature to reduce Gamepad latency over the Bluetooth radio, so it fits in well to consider what you can do to limit WiFi interruptions in games.
