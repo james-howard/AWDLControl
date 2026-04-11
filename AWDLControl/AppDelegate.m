@@ -12,6 +12,7 @@
 
 #import <os/log.h>
 #import <ServiceManagement/ServiceManagement.h>
+#import <UserNotifications/UserNotifications.h>
 
 #define LOG OS_LOG_DEFAULT
 
@@ -20,6 +21,10 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     AWDLModeUp,
     AWDLModeDown,
 };
+
+NSString *const DefaultsAWDLMode = @"AWDLMode";
+NSString *const DefaultsHideWithoutTerminating = @"HideWithoutTerminating";
+NSString *const DefaultsSendNotifications = @"SendNotifications";
 
 @interface NSImage (MenuExtras)
 
@@ -66,8 +71,8 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.window.delegate = self;
     _awdlEnabled = -1;
-    _awdlMode = [[NSUserDefaults standardUserDefaults] integerForKey:@"AWDLMode"];
-    _hideStatusItemWithoutTerminating = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideWithoutTerminating"];
+    _awdlMode = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultsAWDLMode];
+    _hideStatusItemWithoutTerminating = [[NSUserDefaults standardUserDefaults] boolForKey:DefaultsHideWithoutTerminating];
     self.helperService = [SMAppService daemonServiceWithPlistName:@"com.jh.AWDLControl.Helper.plist"];
     [self updateHelperStatus];
 
@@ -95,7 +100,7 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)hasVisibleWindows {
     self.hideStatusItemWithoutTerminating = NO;
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"HideWithoutTerminating"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:DefaultsHideWithoutTerminating];
     self.statusItem.visible = YES;
     self.statusItem.behavior = NSStatusItemBehaviorTerminationOnRemoval;
     return NO;
@@ -148,12 +153,35 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleNameKey];
     alert.messageText = @"Hide Menu Bar Item";
     alert.informativeText = [NSString stringWithFormat:@"%@ will stay running in the background in its current mode. Double click %@ from the Finder to re-show its menu bar item.", appName, appName];
+
+    NSButton *notificationsButton = nil;
+    if (_awdlMode == AWDLModeGame) {
+        notificationsButton = [NSButton checkboxWithTitle:@"Show notifications when AWDL changes" target:nil action:nil];
+        notificationsButton.state = [[NSUserDefaults standardUserDefaults] boolForKey:DefaultsSendNotifications] ? NSControlStateValueOn : NSControlStateValueOff;
+        alert.accessoryView = notificationsButton;
+    }
+
     [alert addButtonWithTitle:@"Hide"];
     [alert addButtonWithTitle:@"Cancel"];
+
     [NSApp activateIgnoringOtherApps:YES];
     if (NSAlertFirstButtonReturn == [alert runModal]) {
         self.hideStatusItemWithoutTerminating = YES;
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HideWithoutTerminating"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:DefaultsHideWithoutTerminating];
+        if (notificationsButton) {
+            BOOL enable = notificationsButton.state == NSControlStateValueOn;
+            if (enable) {
+                [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                    if (granted) {
+                        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:DefaultsSendNotifications];
+                    } else {
+                        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:DefaultsSendNotifications];
+                    }
+                }];
+            } else {
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:DefaultsSendNotifications];
+            }
+        }
         self.statusItem.behavior = NSStatusItemBehaviorRemovalAllowed;
         self.statusItem.visible = NO;
     }
@@ -202,7 +230,21 @@ typedef NS_ENUM(NSInteger, AWDLMode) {
         self.lastGameApp = gameApp;
     }
 
+    NSInteger lastEnabled = _awdlEnabled;
     [self setAWDLEnabled:!(onWiFi && inGame)];
+    NSInteger enabled = _awdlEnabled;
+
+    if (lastEnabled != enabled && (lastEnabled != -1 || enabled == 0) && self.hideStatusItemWithoutTerminating && [[NSUserDefaults standardUserDefaults] boolForKey:DefaultsSendNotifications]) {
+        UNMutableNotificationContent *noteContent = [UNMutableNotificationContent new];
+        noteContent.title = @"AWDL Control";
+        if (enabled == 1) {
+            noteContent.subtitle = @"AirDrop & Continuity are now available";
+        } else {
+            noteContent.subtitle = [NSString stringWithFormat:@"AWDL is disabled while using %@. AirDrop & Continuity are unavailable.", gameApp.localizedName];
+        }
+        UNNotificationRequest *note = [UNNotificationRequest requestWithIdentifier:@"AWDLChange" content:noteContent trigger:nil];
+        [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:note withCompletionHandler:nil];
+    }
 }
 
 - (void)setAWDLMode:(AWDLMode)mode {
