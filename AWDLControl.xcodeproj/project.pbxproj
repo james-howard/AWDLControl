@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AA79F922F8ADB1500A2422A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA79F912F8ADB1500A2422A /* Sparkle.framework */; };
+		1AA79F932F8ADB1500A2422A /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1AA79F912F8ADB1500A2422A /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1AAD2F172F075287004C1B0A /* AWDLControlHelper in Copy Helper */ = {isa = PBXBuildFile; fileRef = 1AAD2F042F05FAEB004C1B0A /* AWDLControlHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1AAE44052F0A097D004A3512 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE44042F0A097D004A3512 /* README.md */; };
 		1AAE440F2F0A1D95004A3512 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1AAE440E2F0A1D95004A3512 /* LICENSE.txt */; };
@@ -23,6 +25,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1AA79F942F8ADB1500A2422A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = Frameworks;
+			files = (
+				1AA79F932F8ADB1500A2422A /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+		};
 		1AAD2F022F05FAEB004C1B0A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			dstPath = /usr/share/man/man1/;
@@ -51,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1AA79F912F8ADB1500A2422A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = dep/Sparkle/Sparkle.framework; sourceTree = "<group>"; };
 		1AAD2EEE2F05FAB6004C1B0A /* AWDLControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWDLControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AAD2F042F05FAEB004C1B0A /* AWDLControlHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AWDLControlHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AAD2F102F05FBFE004C1B0A /* HelperProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelperProtocol.h; sourceTree = "<group>"; };
@@ -104,6 +116,7 @@
 		1AAD2EEB2F05FAB6004C1B0A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				1AA79F922F8ADB1500A2422A /* Sparkle.framework in Frameworks */,
 			);
 		};
 		1AAD2F012F05FAEB004C1B0A /* Frameworks */ = {
@@ -114,6 +127,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1AA79F902F8ADB1500A2422A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1AA79F912F8ADB1500A2422A /* Sparkle.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1AAD2EE52F05FAB6004C1B0A = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +143,7 @@
 				1AAD2F0F2F05FBE3004C1B0A /* Common */,
 				1AAD2EF02F05FAB6004C1B0A /* AWDLControl */,
 				1AAD2F052F05FAEB004C1B0A /* AWDLControlHelper */,
+				1AA79F902F8ADB1500A2422A /* Frameworks */,
 				1AAD2EEF2F05FAB6004C1B0A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,6 +177,7 @@
 				1AAD2F0C2F05FBAA004C1B0A /* Copy Helper Plist */,
 				1AAD2F162F0751E0004C1B0A /* Copy Helper */,
 				1AAD2EEC2F05FAB6004C1B0A /* Resources */,
+				1AA79F942F8ADB1500A2422A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -388,6 +411,10 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/dep/Sparkle",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AWDLControl/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "AWDL Control";
@@ -426,6 +453,10 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/dep/Sparkle",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AWDLControl/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "AWDL Control";
