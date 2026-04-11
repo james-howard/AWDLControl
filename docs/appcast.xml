@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+-->
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>AWDLControl</title>
+        <item>
+            <title>1.0.5</title>
+            <pubDate>Sat, 11 Apr 2026 13:03:43 -0700</pubDate>
+            <link>https://awdlcontrol.net</link>
+            <sparkle:fullReleaseNotesLink>https://github.com/james-howard/AWDLControl/releases</sparkle:fullReleaseNotesLink>
+            <sparkle:version>6</sparkle:version>
+            <sparkle:shortVersionString>1.0.5</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/james-howard/AWDLControl/releases/download/v1.0.5/AWDLControl.zip" length="1691370" type="application/octet-stream" sparkle:edSignature="8S2t/6ueHe6rDcbtooKaN3kAYNJgZ/+5cwmtFNWvz1yG3cQQJ6ZOZ4uZKF7yWS/DFcwotPAXHYIj9xsC/tBECg=="/>
+        </item>
+    </channel>
+</rss>
+<!-- sparkle-signatures:
+edSignature: u415nozjvW2iDOr550Tnw7yDh0OeBo3c6UI+lCuMiVCOaMeujeHzTU+VThjmhOLdzGJq1fNGbove0fam3IOqDw==
+length: 1215
+-->
