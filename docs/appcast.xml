@@ -6,6 +6,16 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <channel>
         <title>AWDLControl</title>
         <item>
+            <title>1.0.6</title>
+            <pubDate>Mon, 13 Apr 2026 07:49:16 -0700</pubDate>
+            <link>https://awdlcontrol.net</link>
+            <sparkle:fullReleaseNotesLink>https://github.com/james-howard/AWDLControl/releases</sparkle:fullReleaseNotesLink>
+            <sparkle:version>7</sparkle:version>
+            <sparkle:shortVersionString>1.0.6</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/james-howard/AWDLControl/releases/download/v1.0.6/AWDLControl.zip" length="1691614" type="application/octet-stream" sparkle:edSignature="roBb6GSiQjiXTE3F59lGytlDXuubq5XLNCv3WNdaEip4dayjzW9UwITIiGz91H9WG8WXUyU/oIrcFaow7LEeBw=="/>
+        </item>
+        <item>
             <title>1.0.5</title>
             <pubDate>Sat, 11 Apr 2026 13:03:43 -0700</pubDate>
             <link>https://awdlcontrol.net</link>
@@ -18,6 +28,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: u415nozjvW2iDOr550Tnw7yDh0OeBo3c6UI+lCuMiVCOaMeujeHzTU+VThjmhOLdzGJq1fNGbove0fam3IOqDw==
-length: 1215
+edSignature: cSNOcPsc5hG8MB4A7EbcrkTuMgQuDqVzV+a8GzE266OoAjqpItL3RSsU+ZmHiOLRvr4MbdLJJ7sNPqah+SYfBw==
+length: 1995
 -->
