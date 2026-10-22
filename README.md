@@ -90,6 +90,18 @@ AWDL Control uses approximately the same mechanism as macOS does to determine wh
 * `LSApplicationCategoryType = "public.app-category.games"`
 * `LSSupportsGameMode = true`
 
+### Detection refresh and status
+
+Game detection refreshes when the foreground app changes, after application launch/termination, wake, and session activation, and every two seconds. The status menu uses the same detected game as the AWDL decision. Ordinary games follow the foreground-only policy.
+
+### GeForce NOW sessions
+
+Game Mode keeps AWDL disabled on Wi-Fi while the `com.nvidia.gfnpc.streamer` application is running, even when an overlay or another app has focus. When the streamer exits, normal foreground game detection resumes. The GeForce NOW launcher alone follows the normal foreground-only policy. If NVIDIA leaves the streamer running after a session ends, AWDL stays disabled until that process exits or you select AWDL On.
+
+### Testing
+
+Run the detection regression tests with `bash tests/run.sh` (macOS Command Line Tools required). These compile the production AppDelegate and use simulated applications, network paths, and helper commands; they never register a helper or change AWDL. A packaged application still requires a separate build and live-session validation. The app and helper must be signed by the same Apple developer team. The signing requirement in `AWDLControlHelper/main.m` must match the project's `DEVELOPMENT_TEAM` and the identity used for the build.
+
 ## Dear Apple
 
 I have an open feedback with you about the issue this app addresses.

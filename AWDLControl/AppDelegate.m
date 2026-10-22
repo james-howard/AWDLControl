@@ -63,6 +63,8 @@ NSString *const DefaultsSendNotifications = @"SendNotifications";
 
 @property Reachability *reachability;
 @property NSRunningApplication *lastGameApp;
+@property NSRunningApplication *currentGameApp;
+@property NSTimer *gameDetectionTimer;
 
 @end
 
@@ -79,10 +81,22 @@ NSString *const DefaultsSendNotifications = @"SendNotifications";
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(updateAutoAWDLMode) name:NSWorkspaceDidActivateApplicationNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAutoAWDLMode) name:ReachabilityDidChangeNotification object:nil];
     self.reachability = [Reachability new];
+    NSNotificationCenter *workspaceNotifications = [[NSWorkspace sharedWorkspace] notificationCenter];
+    for (NSString *name in @[NSWorkspaceDidLaunchApplicationNotification,
+                             NSWorkspaceDidTerminateApplicationNotification,
+                             NSWorkspaceDidWakeNotification,
+                             NSWorkspaceSessionDidBecomeActiveNotification]) {
+        [workspaceNotifications addObserver:self selector:@selector(updateAutoAWDLMode) name:name object:nil];
+    }
+    // Recover from missed activation events, including full-screen/streaming transitions.
+    self.gameDetectionTimer = [NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(updateAutoAWDLMode) userInfo:nil repeats:YES];
+    self.gameDetectionTimer.tolerance = 0.5;
+    [[NSRunLoop mainRunLoop] addTimer:self.gameDetectionTimer forMode:NSRunLoopCommonModes];
+    [self updateAutoAWDLMode];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    [self.gameDetectionTimer invalidate];
 }
 
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
@@ -189,34 +203,54 @@ NSString *const DefaultsSendNotifications = @"SendNotifications";
 
 // MARK: Mode Set
 
-/// Returns the active game, or nil if the active app isn't a game.
+/// GeForce NOW's stream runs independently of launcher/window focus. Protect the
+/// whole streamer lifetime, including focus changes and overlays. The launcher
+/// alone continues to follow the normal foreground-only game policy.
+- (NSRunningApplication *)gameApplicationWithFrontmostApplication:(NSRunningApplication *)frontmost
+                                           runningApplications:(NSArray<NSRunningApplication *> *)applications {
+    for (NSRunningApplication *app in applications) {
+        if (!app.terminated && [app.bundleIdentifier isEqualToString:@"com.nvidia.gfnpc.streamer"]) {
+            return app;
+        }
+    }
+    return [self isGameApplication:frontmost] ? frontmost : nil;
+}
+
 - (NSRunningApplication *)activeGame {
-    NSRunningApplication *app = [[NSWorkspace sharedWorkspace] frontmostApplication];
+    NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+    return [self gameApplicationWithFrontmostApplication:workspace.frontmostApplication
+                                    runningApplications:workspace.runningApplications];
+}
+
+- (BOOL)isGameApplication:(NSRunningApplication *)app {
+    if (!app || app.terminated) {
+        return NO;
+    }
 
     NSURL *bundleURL = [app bundleURL];
     if (!bundleURL) {
-        return nil; // Games are in bundles
+        return NO; // Games are in bundles
     }
 
     NSURL *infoURL = [[bundleURL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
     NSData *infoData = [NSData dataWithContentsOfURL:infoURL];
     if (!infoData) {
-        return nil;
+        return NO;
     }
 
     @try {
         NSDictionary *plistData = [NSPropertyListSerialization propertyListWithData:infoData options:0 format:NULL error:NULL];
         if (![plistData isKindOfClass:[NSDictionary class]]) {
-            return nil;
+            return NO;
         }
 
         if ([plistData[@"LSApplicationCategoryType"] isEqualToString:@"public.app-category.games"]
             || [plistData[@"LSSupportsGameMode"] boolValue]) {
-            return app;
+            return YES;
         }
     } @catch (id exc) { }
 
-    return nil;
+    return NO;
 }
 
 - (void)updateAutoAWDLMode {
@@ -225,6 +259,7 @@ NSString *const DefaultsSendNotifications = @"SendNotifications";
 
     BOOL onWiFi = _reachability.interfaceType == nw_interface_type_wifi;
     NSRunningApplication *gameApp = [self activeGame];
+    self.currentGameApp = gameApp;
     BOOL inGame = gameApp != nil;
     if (gameApp) {
         self.lastGameApp = gameApp;
@@ -301,9 +336,9 @@ NSString *const DefaultsSendNotifications = @"SendNotifications";
         } else if (self.reachability.interfaceType != nw_interface_type_wifi) {
             _activeMenuItem.image = nil;
             _activeMenuItem.title = @"Not Connected via Wi-Fi";
-        } else if (self.lastGameApp.active) {
-            _activeMenuItem.image = [self.lastGameApp.icon menuItemImage];
-            _activeMenuItem.title = [NSString stringWithFormat:@"Active for %@", self.lastGameApp.localizedName];
+        } else if (self.currentGameApp && !self.currentGameApp.terminated) {
+            _activeMenuItem.image = [self.currentGameApp.icon menuItemImage];
+            _activeMenuItem.title = [NSString stringWithFormat:@"Active for %@", self.currentGameApp.localizedName];
         } else if (self.lastGameApp && !self.lastGameApp.terminated) {
             _activeMenuItem.image = [self.lastGameApp.icon menuItemImage];
             _activeMenuItem.title = [NSString stringWithFormat:@"Previously Active for %@", self.lastGameApp.localizedName];
@@ -314,6 +349,7 @@ NSString *const DefaultsSendNotifications = @"SendNotifications";
         _activeMenuItem.hidden = NO;
         _activeMenuSeparator.hidden = NO;
     } else {
+        self.currentGameApp = nil;
         self.lastGameApp = nil;
         _activeMenuItem.hidden = YES;
         _activeMenuSeparator.hidden = YES;
