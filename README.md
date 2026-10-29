@@ -61,6 +61,28 @@ Please report bugs here on GitHub.
 
 Please send fan mail to jameshoward@mac.com
 
+## Contributing
+
+If you have an idea for a feature or a bug fix, please start with a
+[GitHub issue](https://github.com/james-howard/AWDLControl/issues)
+clearly describing the problem you're having or the improvement you'd
+like to make. Please write this yourself, don't prompt an AI to write it
+for you, that way your intent will be more clearly and concisely
+expressed.
+
+Once you've filed an issue, and it's been acknowledged as something we'd
+like to address in this project, if you have an implementation you'd
+like to contribute you can request contributor status and you can then
+open a Pull Request.
+
+My goal with this project is to keep it small and limited in scope. This
+is by design in order to ensure that the code remains secure and the
+application is easy to use and understand by everyone.
+
+If you have a use case that's outside the scope I'm trying to address
+here, you're welcome to use your own fork of the project with your
+personal changes.
+
 ## Technical Notes
 
 In older versions of macOS, running the following command in the Terminal could reliably disable AWDL:
