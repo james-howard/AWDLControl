@@ -70,9 +70,9 @@ like to make. Please write this yourself, don't prompt an AI to write it
 for you, that way your intent will be more clearly and concisely
 expressed.
 
-Once you've filed an issue, and it's been acknowledged as something we'd
+Once you've filed an issue, and it's been acknowledged as something I'd
 like to address in this project, if you have an implementation you'd
-like to contribute you can request contributor status and you can then
+like to contribute you can request collaborator status and you can then
 open a Pull Request.
 
 My goal with this project is to keep it small and limited in scope. This
